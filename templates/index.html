@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>카메라 가위바위보</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header>
+        <h1>카메라 가위바위보</h1>
+        <p>손을 화면에 비추면 실시간으로 인식하여 컴퓨터와 대결합니다.</p>
+      </header>
+
+      <section class="game-layout">
+        <section class="video-area">
+          <div class="video-wrapper">
+            <video id="camera" autoplay playsinline></video>
+            <canvas id="overlay"></canvas>
+          </div>
+          <p class="hint">카메라 권한을 허용해야 합니다. 손을 화면 중앙에 맞춰 주세요.</p>
+        </section>
+
+        <section class="robot-panel">
+          <div class="robot-card">
+            <div class="robot-card__header">
+              <h2>로봇 손</h2>
+              <p>컴퓨터가 낸 손모양을 실시간으로 확인하세요.</p>
+            </div>
+            <div id="robot-hand" class="robot-hand" data-gesture="idle" aria-live="polite" aria-label="컴퓨터 손모양">
+              <svg viewBox="0 0 200 220" class="hand hand-idle" role="presentation">
+                <rect x="45" y="70" width="110" height="120" rx="20" class="palm"></rect>
+                <circle cx="100" cy="130" r="35" class="core"></circle>
+                <text x="100" y="140" text-anchor="middle" class="idle-mark">?</text>
+              </svg>
+
+              <svg viewBox="0 0 200 220" class="hand hand-rock" role="presentation">
+                <rect x="45" y="80" width="110" height="120" rx="18" class="palm"></rect>
+                <rect x="48" y="50" width="24" height="45" rx="8" class="finger finger-short"></rect>
+                <rect x="78" y="45" width="24" height="50" rx="8" class="finger finger-short"></rect>
+                <rect x="108" y="47" width="24" height="48" rx="8" class="finger finger-short"></rect>
+                <rect x="138" y="52" width="24" height="43" rx="8" class="finger finger-short"></rect>
+                <rect x="30" y="105" width="28" height="60" rx="12" class="thumb thumb-rock"></rect>
+              </svg>
+
+              <svg viewBox="0 0 200 220" class="hand hand-paper" role="presentation">
+                <rect x="45" y="90" width="110" height="110" rx="18" class="palm"></rect>
+                <rect x="48" y="20" width="24" height="90" rx="10" class="finger"></rect>
+                <rect x="78" y="15" width="24" height="95" rx="10" class="finger"></rect>
+                <rect x="108" y="18" width="24" height="92" rx="10" class="finger"></rect>
+                <rect x="138" y="25" width="24" height="85" rx="10" class="finger"></rect>
+                <rect x="30" y="115" width="28" height="60" rx="12" class="thumb"></rect>
+              </svg>
+
+              <svg viewBox="0 0 200 220" class="hand hand-scissors" role="presentation">
+                <rect x="55" y="95" width="100" height="110" rx="18" class="palm"></rect>
+                <rect x="80" y="25" width="24" height="95" rx="10" class="finger"></rect>
+                <rect x="120" y="25" width="24" height="95" rx="10" class="finger" transform="rotate(8 132 72)"></rect>
+                <rect x="62" y="110" width="24" height="55" rx="10" class="finger finger-short"></rect>
+                <rect x="148" y="110" width="24" height="55" rx="10" class="finger finger-short"></rect>
+                <rect x="40" y="125" width="28" height="55" rx="12" class="thumb thumb-scissors"></rect>
+              </svg>
+            </div>
+            <p class="robot-caption">🤖 <span id="robot-hand-label">대기 중</span></p>
+          </div>
+        </section>
+      </section>
+
+      <section class="status-panel">
+        <div class="status-card">
+          <h2>현재 상태</h2>
+          <p><strong>내 손:</strong> <span id="player-choice">대기</span></p>
+          <p><strong>컴퓨터:</strong> <span id="computer-choice">-</span></p>
+          <p><strong>라운드 결과:</strong> <span id="round-result">대기 중</span></p>
+          <p><strong>안내:</strong> <span id="guide-text">카메라 준비 중...</span></p>
+        </div>
+        <div class="status-card">
+          <h2>스코어</h2>
+          <p>승리: <span id="player-score">0</span></p>
+          <p>패배: <span id="computer-score">0</span></p>
+          <p>무승부: <span id="draw-score">0</span></p>
+          <button id="reset-btn">스코어 초기화</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="/static/app.js" type="module"></script>
+  </body>
+</html>
